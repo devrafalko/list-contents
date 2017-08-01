@@ -1,0 +1,33 @@
+{
+  "name": "list-contents",
+  "version": "2.0.0",
+  "description": "Returns a list of paths to the subfolders and subfiles of the specified location.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "folder",
+    "subfolder",
+    "file",
+    "subfile",
+    "contents",
+    "directory",
+    "path"
+  ],
+  "author": "Paweł Rafałko",
+  "license": "MIT",
+  "dependencies": {
+    "cli-color": "^1.2.0",
+    "fs-extra": "^4.0.1",
+    "typeof-arguments": "^2.1.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/devrafalko/list-contents.git"
+  },
+  "bugs": {
+    "url": "https://github.com/devrafalko/list-contents/issues"
+  },
+  "homepage": "https://github.com/devrafalko/list-contents#readme"
+}
