@@ -1,6 +1,6 @@
 # Description
 `list-contents` is a module that returns a list of paths to the subfolders and subfiles of the specified location.
-* Any bugs found? Give me to know on **dev.rafalko@gmail.com**
+* Any bugs found? Give me to know on *dev.rafalko@gmail.com* or on [GitHub](https://github.com/devrafalko/list-contents)
 * Also check out [**`structure-dirs`**](https://www.npmjs.com/package/structure-dirs) package that creates the folders and files contents according to the given [Array] structure.
 
 # Installation
@@ -58,7 +58,7 @@ dist
 the module will pass the following object through the `callback` function:
 ```javascript
 {
-  error: false,
+  error: null,
   path: "./dist",
   dirs: [
     'scripts',
