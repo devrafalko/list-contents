@@ -18,7 +18,7 @@ const list = require('list-contents');
 ##### `callback` **[Function]**
 * the [Object] argument is passed through **`callback`** function. It has 4 properties:
   * `error` [Boolean|Error]
-     `false` if the **`path`** is valid, otherwise [Error] object
+     `null` if the **`path`** is valid, otherwise [Error] object
   * `dirs` [Array]
     The list of all subfolders' paths of the specified **`path`** argument
   * `files` [Array]
