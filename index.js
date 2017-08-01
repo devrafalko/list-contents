@@ -7,8 +7,8 @@ const error = cliColor.red;
 const warn = cliColor.bgYellow.black;
 
 module.exports = function(getPath,callback){
-  args(arguments,['string','function'],(a,e,m)=>{
-    var err = new TypeError(warn('list-contents') + ': ' + error(m));
+  args(arguments,['string','function'],(o)=>{
+    var err = new TypeError(warn('list-contents') + ': ' + error(o.message));
     throw err;
   });
   var msgError = new Error(warn('list-contents') + ': ' + error('Could not get the access to the contents of the given directory path.'));
