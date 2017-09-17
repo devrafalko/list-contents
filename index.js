@@ -19,9 +19,9 @@ module.exports = function(getPath,callback){
 
   function explore(resolve,reject,r){
     var relative = typeof r==='undefined' ? '':r;
-    var abs = path.resolve(this.path,relative);
-    fs.readdir(abs,(err,contents)=>{
-      if(err) reject(new Error(warn('list-contents') + ': ' + error(`Could not get the access to the '${parseSlashes(abs)}' path.`)));
+    var absolute = path.resolve(this.path,relative);
+    fs.readdir(absolute,(err,contents)=>{
+      if(err) reject(new Error(warn('list-contents') + ': ' + error(`Could not get the access to the '${absolute}' path.`)));
       if(!err){
         var contentsIter = 0;
         if(!contents.length) resolve();
@@ -42,19 +42,16 @@ module.exports = function(getPath,callback){
     var absolute = path.resolve(this.path,r,item);
     var relative = path.join(r,item);
     fs.stat(absolute,(err,stats)=>{
-      if(err) reject(new Error(warn('list-contents') + ': ' + error(`Could not get the access to the '${parseSlashes(absolute)}' path.`)));
+      if(err) reject(new Error(warn('list-contents') + ': ' + error(`Could not get the access to the '${absolute}' path.`)));
       if(!err){
         var exists = err === null,
             isFile = stats && stats.isFile(),
             isDir = stats && stats.isDirectory();
-        if(exists && isFile) this.files.push(parseSlashes(relative));
-        if(exists && isDir) this.dirs.push(parseSlashes(relative));
+        if(exists && isFile) this.files.push(relative);
+        if(exists && isDir) this.dirs.push(relative);
         resolve(isDir,relative);
       }
     });
   }
   
-  function parseSlashes(path){
-    return path.replace(/\\/g,'/');
-  }
 };
