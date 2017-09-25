@@ -8,7 +8,7 @@ const warn = cliColor.bgYellow.blue;
 
 module.exports = function(getPath,callback){
   args(arguments,['string','function'],(o)=>{
-    var err = new TypeError(warn('list-contents') + ': ' + error(o.message));
+    var err = new TypeError(error(o.message));
     throw err;
   });
   var userContext = {dirs:[], files:[], path:getPath, error:null };
@@ -21,7 +21,7 @@ module.exports = function(getPath,callback){
     var relative = typeof r==='undefined' ? '':r;
     var absolute = path.resolve(this.path,relative);
     fs.readdir(absolute,(err,contents)=>{
-      if(err) reject(new Error(warn('list-contents') + ': ' + error(`Could not get the access to the '${absolute}' path.`)));
+      if(err) reject(new Error(error(`Could not get the access to the '${absolute}' path.`)));
       if(!err){
         var contentsIter = 0;
         if(!contents.length) resolve();
@@ -42,7 +42,7 @@ module.exports = function(getPath,callback){
     var absolute = path.resolve(this.path,r,item);
     var relative = path.join(r,item);
     fs.stat(absolute,(err,stats)=>{
-      if(err) reject(new Error(warn('list-contents') + ': ' + error(`Could not get the access to the '${absolute}' path.`)));
+      if(err) reject(new Error(error(`Could not get the access to the '${absolute}' path.`)));
       if(!err){
         var exists = err === null,
             isFile = stats && stats.isFile(),
