@@ -29,7 +29,7 @@ module.exports = function(getPath,callback){
           checkItem.call(this,relative,contents[i],(isDir,relative)=>{
             if(isDir) explore.call(this,iter,reject,relative);
             if(!isDir) iter();
-          });
+          },reject);
         }
       }
         function iter(){
