@@ -20,6 +20,7 @@
   "dependencies": {
     "cli-color": "^1.2.0",
     "move-on": "^1.0.0",
+    "of-type": "^2.1.0",
     "typeof-arguments": "^3.0.1"
   },
   "repository": {

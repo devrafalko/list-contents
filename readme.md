@@ -13,11 +13,31 @@ const list = require('list-contents');
 ```
 
 # Usage
-### `list(path,callback)`
+### `list(path,[config,]callback)`
 ##### `path` **[String]**
 * It should indicate the path to the chosen directory, which subfolders and subfiles should be listed
 > If the `path`, eg. `'./dist/styles'` is inaccessible itself, the `callback` function will return object:  
 > `{files:[], dirs:[], inaccessible:[ './' ], path:'./dist/styles'}`
+
+##### `config` **[Object|Number|null]**
+* if **omitted**, the parameters are set to their default values *(see below)*
+* if [Object], it takes the following properties:
+  * **`deep`** [Number|null] *(default:`null`)*
+    It indicates how deep the `list-contents` should explore the folders in the given `path` directory.  
+    If set to `null` *(default)* it lists all subfiles and subfolders of all levels of the `path` directory.  
+    If set to `1` it lists only the folders and files of the `path` directory.  
+    If set to `2` it lists the elements of the `path` directory and the contents of the `path` directory's folders.  
+    etc.
+* if [Number], it sets `deep` to `[Number]`
+* if [null], it sets `deep` to `null`
+```javascript
+const listContents = require('list-contents');
+
+listContents('./dist', (data)=>{/*...*/});
+listContents('./dist', null, (data)=>{/*...*/});
+listContents('./dist', 3, (data)=>{/*...*/});
+listContents('./dist', {deep: 5}, (data)=>{/*...*/});
+```
 
 ##### `callback` **[Function]**
 * the [Object] argument is passed through **`callback`** function. It has 4 properties:
