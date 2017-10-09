@@ -1,6 +1,6 @@
 {
   "name": "list-contents",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "Returns a list of paths to the subfolders and subfiles of the specified location.",
   "main": "index.js",
   "scripts": {
