@@ -19,14 +19,14 @@ const list = require('list-contents');
 * if **omitted**, the parameters are set to their default values; *All the elements of all levels are listed*.
 * You can configure the `list-contents` module with the following [Object] `config`'s properties:
   * **`depth`** [Number|null] *(default:null)*  
-    It indicates how deep the `list-contents` module should explore the folders in the given `path` directory.
-    If set to `null` *(default)* - it lists all subfiles and subfolders of all levels of the `path` directory.
-    If set to 1 - it lists only the one level of `path` directory elements; eg. `./styles`, `./index.html`
-    If set to 2 - it lists two levels of `path` directory elements; eg. `./styles/css`, `./scripts/ajax.js`
+    It indicates how deep the `list-contents` module should explore the folders in the given `path` directory.  
+    If set to `null` *(default)* - it lists all subfiles and subfolders of all levels of the `path` directory.  
+    If set to 1 - it lists only the one level of `path` directory elements; eg. `./styles`, `./index.html`.  
+    If set to 2 - it lists two levels of `path` directory elements; eg. `./styles/css`, `./scripts/ajax.js`  
     etc.
   * **`exclude`** [Array|String] *(default:[])*  
     It indicates the folders' and files' paths that should be ignored and not included into the `files`, `dirs` and `inaccessible` lists.  
-    If the folder is indicated, neither the folder nor its contents will be included. 
+    If the folder is indicated, neither the folder nor its contents will be included.  
     When [String], it can indicate the one path to ignore, eg `"./bin"`.  
     When [Array], it can indicate more than one path to ignore, eg. `["./node_modules", "./bin"]`.  
     The given paths **must be relative** to the `path`, otherwise they will be not recognized.  
