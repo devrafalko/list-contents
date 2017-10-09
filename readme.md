@@ -2,8 +2,6 @@
 `list-contents` is a module that returns a list of paths to the subfolders and subfiles of the specified location.
 * Any bugs found? Give me to know on *dev.rafalko@gmail.com* or on [GitHub](https://github.com/devrafalko/list-contents)
 * Also check out [**`file-assistant`**](https://www.npmjs.com/package/file-assistant) package that creates, copies or moves the folders and files into the specified path or modifies the files' content according to the given [Array] object (or .json file path) instructions.
-* Changes:
-  * **`v3.*.*`** The `callback` function `object.error` property has been replaced with `object.inaccessible` property. If the file or folder is inaccessible, it is pushed into `object.inaccessible` array [\[see below\]](#callback-function). Unlike `object.error`, if the file or folder is inaccessible, it does not stop retrieving the further files and folders. After retrieving all children items, the `callback` function returns the object with `dirs`, `files` and `inaccessible` [Array] properties.
 
 # Installation
 `npm install list-contents`
@@ -16,11 +14,12 @@ const list = require('list-contents');
 ### `list(path,[config,]callback)`
 ##### `path` **[String]**
 * It should indicate the path to the chosen directory, which subfolders and subfiles should be listed
-> If the `path`, eg. `'./dist/styles'` is inaccessible itself, the `callback` function will return object:  
-> `{files:[], dirs:[], inaccessible:[ './' ], path:'./dist/styles'}`
+
 
 ##### `config` **[Object|Number|null]**
-* if **omitted**, the parameters are set to their default values *(see below)*
+* if **omitted**, the parameters are set to their default values *[see below]*
+* if [Number], it sets `deep` to `[Number]` *[see below]*
+* if [null], it sets `deep` to `null` *[see below]*
 * if [Object], it takes the following properties:
   * **`deep`** [Number|null] *(default:`null`)*
     It indicates how deep the `list-contents` should explore the folders in the given `path` directory.  
@@ -28,8 +27,14 @@ const list = require('list-contents');
     If set to `1` it lists only the folders and files of the `path` directory.  
     If set to `2` it lists the elements of the `path` directory and the contents of the `path` directory's folders.  
     etc.
-* if [Number], it sets `deep` to `[Number]`
-* if [null], it sets `deep` to `null`
+  * **`exclude`** [Array|String]  
+    It indicates the folders' and files' paths that should be ignored and not included into the `files`, `dirs` and `inaccessible` lists.  
+    If the folder is indicated, neither the folder nor its contents will be included.
+    When [String], it can indicate the one path to ignore, eg `"./bin"`  .
+    When [Array], it can indicate more than one path to ignore, eg. `["./node_modules", "./bin"]`.  
+    The given paths must be **relative** to the `path`.  
+    You can ignore needless paths, eg. `'./node_modules'` or `'./.git'` to make the module faster.
+
 ```javascript
 const listContents = require('list-contents');
 
@@ -37,18 +42,20 @@ listContents('./dist', (data)=>{/*...*/});
 listContents('./dist', null, (data)=>{/*...*/});
 listContents('./dist', 3, (data)=>{/*...*/});
 listContents('./dist', {deep: 5}, (data)=>{/*...*/});
+listContents('./dist', {deep: 3, exclude: ['node_modules','.git']}, (data)=>{/*...*/})
 ```
 
 ##### `callback` **[Function]**
-* the [Object] argument is passed through **`callback`** function. It has 4 properties:
-  * **`error`** [Boolean|Error] **`v2.*.*`**  
+* the [Object] argument is passed through **`callback`** function. It has 5 properties:
+  * **`error`** [Boolean|Error]
     `null` if the **`path`** is valid, otherwise [Error] object
   * **`dirs`** [Array]  
     The list of all subfolders' paths of the specified **`path`** argument
   * **`files`** [Array]  
     The list of all subfiles' paths of the specified **`path`** argument
   * **`inaccessible`** [Array] **`v3.*.*`**  
-    The list of all unrecognized or inaccessible children's paths of the specified **`path`** argument
+    The list of all unrecognized or inaccessible elements' paths of the specified **`path`** argument.  
+    If the file or folder is inaccessible, it does not stop retrieving the further files and folders.
   * **`path`** [String]  
     The path that was given as **`path`** parameter
 
@@ -103,6 +110,7 @@ the module will pass the following object through the `callback` function:
     'styles/css/layout.css',
     'styles/css/media.css',
     'styles/scss/mixins.scss'
-  ]
+  ],
+  inaccessible: []
 }
 ```
