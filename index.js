@@ -8,27 +8,29 @@ const type = require('of-type');
 const cliError = (msg)=>`\x1b[31m${msg}\x1b[0m`;
 
 module.exports = function(p,b,c){
-  const types = type(c,Function) ? [String,[Number,Object,null],Function]:type(b,Function) ? [String,Function]:[String,[Number,Object,Function,null],Function];
+  const types = type(c,Function) ? [String,[Object],Function]:type(b,Function) ? [String,Function]:type(b,Object) ? [String,Object,Function]:[String,[Object,Function],[Function,undefined]];
   
   args(arguments,types,(o)=>{
     var err = new TypeError(cliError(o.message));
     throw err;
   });
-  const getDeep = type(b,Number) ? b:type(b,Object) ? type(b.deep,Number) ? b.deep:0:0;
-  var getExcluded = type(b,Object) ? type(b.exclude,String) ? [b.exclude]:type(b.exclude,Array) ? b.exclude:[]:[]; 
-  const getCallback = type(b,Function) ? b:c;
+  
   const getPath = path.resolve(p);
+  const config = type(b,Object) ? b:{};
+  const callback = type(b,Function) ? b:c;
+  const depth = type(config.depth,Number) ? config.depth:null;
+  var exclude = type(config.exclude,String) ? [config.exclude]:type(config.exclude,Array) ? config.exclude:[];
   var userContext = {error:null, dirs:[], files:[], inaccessible:[], path:getPath};
 
   moveOn([pathExists,prepareExcluded,explore],userContext,onDone,onCatch);
 
   function onDone(){
-    getCallback(this);
+    callback(this);
   }
 
   function onCatch(userContext,err){
     this.error = err;
-    getCallback(this);
+    callback(this);
   }
 
   function pathExists(resolve,reject){
@@ -41,7 +43,7 @@ module.exports = function(p,b,c){
   }
   
   function prepareExcluded(resolve){
-    getExcluded = getExcluded.map((o)=>{
+    exclude = exclude.map((o)=>{
       return path.normalize(o);
     });
     resolve();
@@ -61,15 +63,15 @@ module.exports = function(p,b,c){
         var contentsIter = 0;
 
         contents = contents.filter((x)=>{
-          const ind = getExcluded.indexOf(path.join(relative,x));
-          if(ind>=0) getExcluded.splice(ind,1);
+          const ind = exclude.indexOf(path.join(relative,x));
+          if(ind>=0) exclude.splice(ind,1);
           return !(ind>=0);
         });
 
         if(!contents.length) resolve();
         for(let i in contents){
           checkItem.call(this,relative,contents[i],(isDir,relative)=>{
-            if(isDir&&nextDeep!==getDeep) return explore.call(this,iter,reject,relative,nextDeep);
+            if(isDir&&nextDeep!==depth) return explore.call(this,iter,reject,relative,nextDeep);
             iter();
           },resolve);
         }
