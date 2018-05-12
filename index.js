@@ -1,5 +1,3 @@
-/* global Function */
-
 const fs = require('fs');
 const path = require('path');
 const args = require('typeof-arguments');
@@ -98,9 +96,10 @@ module.exports = function(p,b,c){
       var o = {error:null,exists:false,file:false,dir:false};
       if(err) o.error = err;
       if(!err){
-        o.exists = type(err,null);
-        o.file = type(stats,'Stats')&&stats.isFile();
-        o.dir = type(stats,'Stats')&&stats.isDirectory();
+        o.exists = err === null;
+        const hasStats = stats instanceof fs.Stats;
+        o.file = hasStats && stats.isFile();
+        o.dir = hasStats && stats.isDirectory();
       }
       return callback(o);
     });
