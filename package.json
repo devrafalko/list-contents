@@ -2,9 +2,10 @@
   "name": "list-contents",
   "version": "4.0.2",
   "description": "Returns a list of paths to the subfolders and subfiles of the specified location.",
-  "main": "index.js",
+  "main": "dist/list-contents.node.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "webpack --env.dev",
+    "build": "webpack --env.prod"
   },
   "keywords": [
     "folder",
@@ -18,9 +19,19 @@
   "author": "Paweł Rafałko",
   "license": "MIT",
   "dependencies": {
-    "move-on": "^1.0.0",
-    "of-type": "^2.1.0",
-    "typeof-arguments": "^3.0.1"
+    "move-on": "^2.1.8",
+    "of-type": "^3.0.3",
+    "typeof-arguments": "^5.1.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.11.1",
+    "@babel/preset-env": "^7.11.0",
+    "babel-loader": "^8.1.0",
+    "terser-webpack-plugin": "^4.1.0",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12",
+    "webpack-merge": "^5.1.1",
+    "webpack-node-externals": "^2.5.1"
   },
   "repository": {
     "type": "git",
