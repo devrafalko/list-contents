@@ -1,6 +1,6 @@
 {
   "name": "list-contents",
-  "version": "4.0.2",
+  "version": "4.0.3",
   "description": "Returns a list of paths to the subfolders and subfiles of the specified location.",
   "main": "dist/list-contents.node.js",
   "scripts": {
